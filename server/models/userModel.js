@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 
 //name, email, password, bio, profilePic, contacts, timestamps
@@ -44,7 +45,18 @@ userSchema.pre("save", async function(next){
     }
 })
 
-userSchema.methods.generateAuthToken = () => {
+userSchema.methods.generateAuthToken = async function(){
+    try {
+        let token = jwt.sign(
+            {id: this._id, email:this.email},
+            process.env.SECRET,
+            {expiresIn: "24h"}
+        );
+        return token;
+        
+    } catch (error) {
+        console.log(`Error creating token`)
+    }
 
 }
 
