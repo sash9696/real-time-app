@@ -1,6 +1,16 @@
 // Mock API functions that return static data
 import { staticChats, staticUsers, staticActiveUser } from "../data/staticData";
+import axios from "axios";
 
+let url = import.meta.env.VITE_API_URL;
+
+console.log("url", url);
+
+const API = (token) =>
+  axios.create({
+    baseURL: url,
+    headers: { Authorization: token },
+  });
 // Simulate API delay
 const delay = (ms = 500) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -35,9 +45,23 @@ export const accessCreate = async (body) => {
   return newChat;
 };
 
+// export const fetchAllChats = async () => {
+//   await delay(300);
+//   return staticChats;
+// };
+
 export const fetchAllChats = async () => {
-  await delay(300);
-  return staticChats;
+  try {
+
+    const token = localStorage.getItem('userToken');
+
+    const {data} = await API(token).get('/api/chat')
+
+    return data;
+    
+  } catch (error) {
+    console.log("Error in fetchAllChats api", error)
+  }
 };
 
 export const createGroup = async (body) => {

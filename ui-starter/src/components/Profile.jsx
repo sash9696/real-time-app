@@ -51,7 +51,7 @@ function Profile(props) {
           <div className='flex items-center flex-col'>
             <img className='w-[150px] h-[150px] rounded-[100%] -ml-5' src={activeUser?.profilePic} alt="" />
           </div>
-          <InputEdit type="name" handleChange={handleChange} input={formData.name} handleSubmit={submit} />
+          <InputEdit heading="Name" type="name" handleChange={handleChange} input={formData.name} handleSubmit={submit} />
 
           <div>
 
@@ -62,7 +62,7 @@ function Profile(props) {
             </div>
 
           </div>
-          <InputEdit type="bio" handleChange={handleChange} input={formData.bio} handleSubmit={submit} />
+          <InputEdit heading="Bio" type="bio" handleChange={handleChange} input={formData.bio} handleSubmit={submit} />
         </div>
 
         <div onClick={logoutUser} className='flex items-center justify-center mt-5 cursor-pointer shadow-2xl'>

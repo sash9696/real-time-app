@@ -4,7 +4,7 @@ import { TbEdit } from "react-icons/tb";
 
 import { BsCheck2 } from "react-icons/bs";
 
-function InputEdit({ type, input, handleChange, handleSubmit }) {
+function InputEdit({heading, type, input, handleChange, handleSubmit }) {
   const [isEditable, setisEditable] = useState(false);
 
   const submitButton = () => {
@@ -15,7 +15,7 @@ function InputEdit({ type, input, handleChange, handleSubmit }) {
   return (
     <>
       <div className="flex flex-col py-4 mt-4 bg[-#ffff] shadow-md px-4 gap-y-3">
-        <p>Your name</p>
+        <p>{heading}</p>
 
         {!isEditable ? (
           <div className="flex justify-between items-center">

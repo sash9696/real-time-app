@@ -38,7 +38,7 @@ function AuthForm({ mode }) {
     const { email, password } = formData;
 
     console.log({ email, password });
-    const isValid = email.includes("@") && password.length > 6;
+    const isValid = email.includes("@") && password.length >= 6;
     if (!isValid) {
       toast.warning("provide valid credentials");
       setFormData({ ...formData, password: "" });

@@ -8,7 +8,7 @@ const store = configureStore({
   reducer: {
     activeUser: activeUserSlice,
     chats: chatsSlice,
-    profile: profileSlice
+    profile: profileSlice,
   },
 });
 
