@@ -38,6 +38,10 @@ export const sendMessage = async (req, res) => {
       latestMessage: msg,
     });
 
+    // Note: Socket emission is handled by the client via 'new message' event
+    // The server broadcasts it in the socket handler, so we don't emit here
+    // to avoid duplicate messages
+
     return res.status(200).json(msg);
 
   } catch (error) {

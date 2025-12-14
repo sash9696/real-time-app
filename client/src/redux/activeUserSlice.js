@@ -24,12 +24,21 @@ const activeUserSlice = createSlice({
   initialState,
   reducers: {
     setActiveUser: (state, action) => {
-      console.log({state, action})
-      state.id = action.payload.id;
-      state.email = action.payload.email;
-      state.profilePic = action.payload.profilePic;
-      state.bio = action.payload.bio;
-      state.name = action.payload.name;
+      // Only update if we have valid payload
+      if (action.payload && action.payload.id) {
+        state.id = action.payload.id;
+        state.email = action.payload.email || '';
+        state.profilePic = action.payload.profilePic || '';
+        state.bio = action.payload.bio || '';
+        state.name = action.payload.name || '';
+      } else {
+        // Clear state
+        state.id = '';
+        state.email = '';
+        state.profilePic = '';
+        state.bio = '';
+        state.name = '';
+      }
     },
     setUserNameAndBio: (state, action) => {
       state.bio = action.payload.bio;

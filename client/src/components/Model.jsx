@@ -159,26 +159,32 @@ function Model(props) {
               <div className='w-[250px] h-[250px] flex flex-col items-center justify-center -mt-4'>
                 <img className='w-[70px] h-[70px] rounded-[35px] shadow-lg' src={getChatPhoto(activeChat, activeUser)} alt="" />
                 <h2 className='text-[17px] tracking-wider font-semibold text-[#313439]'>{getChatName(activeChat, activeUser)}</h2>
-                <h3>
+                <h3 className='text-[14px] text-[#667781]'>
   {
     !activeChat?.isGroup &&
     Array.isArray(activeChat?.users) &&
     activeChat?.users.length >= 2 &&
-    (activeChat?.users[0]?._id === activeUser.id
-      ? activeChat?.users[1]?.email
-      : activeChat?.users[0]?.email)
+    (() => {
+      const user0Id = activeChat.users[0]?._id?.toString() || activeChat.users[0]?._id;
+      const userId = activeUser.id?.toString() || activeUser.id || activeUser._id?.toString() || activeUser._id;
+      const otherUser = user0Id === userId ? activeChat.users[1] : activeChat.users[0];
+      return otherUser?.email || '';
+    })()
   }
 </h3>
 
-                <div className='flex flex-col items-start'>
-                <h5>
+                <div className='flex flex-col items-start mt-1'>
+                <h5 className='text-[14px] text-[#667781]'>
   {
     !activeChat?.isGroup &&
     Array.isArray(activeChat?.users) &&
     activeChat.users.length >= 2 &&
-    (activeChat.users[0]?._id === activeUser.id
-      ? activeChat.users[1]?.bio
-      : activeChat.users[0]?.bio)
+    (() => {
+      const user0Id = activeChat.users[0]?._id?.toString() || activeChat.users[0]?._id;
+      const userId = activeUser.id?.toString() || activeUser.id || activeUser._id?.toString() || activeUser._id;
+      const otherUser = user0Id === userId ? activeChat.users[1] : activeChat.users[0];
+      return otherUser?.bio || 'Available';
+    })()
   }
 </h5>
 

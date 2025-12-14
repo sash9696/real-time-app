@@ -1,15 +1,19 @@
 export const isSameSenderMargin = (messages, m, i, userId) => {
+    const currentSenderId = m.sender?._id?.toString() || m.sender?._id;
+    const nextSenderId = i < messages.length - 1 ? (messages[i + 1].sender?._id?.toString() || messages[i + 1].sender?._id) : null;
+    const userIdStr = userId?.toString() || userId;
+    
     if (
       i < messages.length - 1 &&
-      messages[i + 1].sender._id === m.sender._id &&
-      messages[i].sender._id !== userId
+      nextSenderId === currentSenderId &&
+      currentSenderId !== userIdStr
     )
       return 33;
     else if (
       (i < messages.length - 1 &&
-        messages[i + 1].sender._id !== m.sender._id &&
-        messages[i].sender._id !== userId) ||
-      (i === messages.length - 1 && messages[i].sender._id !== userId)
+        nextSenderId !== currentSenderId &&
+        currentSenderId !== userIdStr) ||
+      (i === messages.length - 1 && currentSenderId !== userIdStr)
     )
       return 0;
     else return 'auto';
@@ -41,22 +45,33 @@ export const isSameSenderMargin = (messages, m, i, userId) => {
     return Math.floor(seconds) + ' seconda ago';
   }
   export const isSameSender = (messages, m, i, userId) => {
+    const currentSenderId = m.sender?._id?.toString() || m.sender?._id;
+    const nextSenderId = i < messages.length - 1 ? (messages[i + 1].sender?._id?.toString() || messages[i + 1].sender?._id) : null;
+    const userIdStr = userId?.toString() || userId;
+    
     return (
       i < messages.length - 1 &&
-      (messages[i + 1].sender._id !== m.sender._id ||
-        messages[i + 1].sender._id === undefined) &&
-      messages[i].sender._id !== userId
+      (nextSenderId !== currentSenderId ||
+        nextSenderId === undefined) &&
+      currentSenderId !== userIdStr
     );
   };
   export const isLastMessage = (messages, i, userId) => {
+    const lastMessage = messages[messages.length - 1];
+    const lastSenderId = lastMessage?.sender?._id?.toString() || lastMessage?.sender?._id;
+    const userIdStr = userId?.toString() || userId;
+    
     return (
       i === messages.length - 1 &&
-      messages[messages.length - 1].sender._id !== userId &&
-      messages[messages.length - 1].sender._id
+      lastSenderId !== userIdStr &&
+      lastSenderId
     );
   };
   export const isSameUser = (messages, m, i) => {
-    return i > 0 && messages[i - 1].sender._id === m.sender._id;
+    if (i === 0) return false;
+    const currentSenderId = m.sender?._id?.toString() || m.sender?._id;
+    const prevSenderId = messages[i - 1].sender?._id?.toString() || messages[i - 1].sender?._id;
+    return currentSenderId === prevSenderId;
   };
   export const getSender = (activeUser, users) => {
     return activeUser.id === users[0]._id ? users[1].name : users[0].name;

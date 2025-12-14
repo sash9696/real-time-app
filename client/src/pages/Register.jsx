@@ -49,7 +49,55 @@ function AuthForm({ mode }) {
       const apiCall = isRegister ? registerUser : loginUser;
       const { data } = await apiCall(formData);
       if (data?.token) {
+        // Check if there's already a token from a different user
+        const existingToken = localStorage.getItem("userToken");
+        const existingWindowId = localStorage.getItem("windowId");
+        
+        if (existingToken && existingToken !== data.token) {
+          console.warn('Login/Register - Overwriting existing token!', {
+            existingToken: existingToken.substring(0, 50),
+            newToken: data.token.substring(0, 50),
+            existingWindowId
+          });
+        }
+        
+        // Generate a unique window ID to track this window's token
+        const windowId = `window_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        
+        // Store window ID first
+        localStorage.setItem("windowId", windowId);
+        
+        // Then store token in this window's localStorage
         localStorage.setItem("userToken", data.token);
+        
+        // Log for debugging
+        console.log('Login/Register - Window ID:', windowId);
+        console.log('Login/Register - Token stored (first 50 chars):', data.token.substring(0, 50));
+        console.log('Login/Register - User email from form:', formData.email);
+        console.log('Login/Register - Full token for debugging:', data.token);
+        
+        // Verify it was stored correctly for this window
+        const storedToken = localStorage.getItem("userToken");
+        const storedWindowId = localStorage.getItem("windowId");
+        
+        if (storedToken !== data.token) {
+          console.error("Token storage verification failed!", {
+            expected: data.token.substring(0, 50),
+            stored: storedToken?.substring(0, 50)
+          });
+          toast.error("Failed to store authentication token");
+          return;
+        }
+        
+        if (storedWindowId !== windowId) {
+          console.error("Window ID storage verification failed!", {
+            expected: windowId,
+            stored: storedWindowId
+          });
+          toast.error("Failed to store window identifier");
+          return;
+        }
+        
         navigate("/chats");
         toast.success(`Successfully ${isRegister ? "Registered" : "Logged In"}`)
       } else {
@@ -57,6 +105,7 @@ function AuthForm({ mode }) {
       }
     } catch (error) {
       console.error("Registration error:", error);
+      toast.error(error?.response?.data?.error || "Login/Registration failed");
     } finally {
       setIsLoading(false);
     }

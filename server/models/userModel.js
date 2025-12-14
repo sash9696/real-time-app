@@ -23,7 +23,7 @@ const userSchema = mongoose.Schema(
             type: String,
             default: 'Available'
         },
-        bio:{
+        profilePic:{
             type: String,
             default:"https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
         },
@@ -39,10 +39,11 @@ const userSchema = mongoose.Schema(
     }
 )
 
-userSchema.pre("save", async function(next){
+userSchema.pre("save", async function(){
     if(this.isModified("password")){
         this.password  = await bcrypt.hash(this.password, 12)
     }
+    // No need to call next() in async pre hooks - Mongoose handles it automatically
 })
 
 userSchema.methods.generateAuthToken = async function(){

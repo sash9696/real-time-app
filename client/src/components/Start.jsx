@@ -5,18 +5,15 @@ function Start() {
   const pageRoute = useNavigate()
   useEffect(() => {
     const isValid = async () => {
-      const data = await validUser()
+      const data = await validUser();
       if (!data?.user) {
-        pageRoute("/login")
+        pageRoute("/login");
+      } else {
+        pageRoute("/chats");
       }
-      else {
-        pageRoute("/chats")
-
-      }
-    }
-    isValid()
-
-  }, [pageRoute])
+    };
+    isValid();
+  }, [pageRoute]);
   return (
 
 
