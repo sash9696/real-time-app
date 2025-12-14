@@ -42,11 +42,5 @@ This is a full-stack real-time chat application where users can:
 2. **Read the Backend docs** to understand the API and how to test it
 3. **Follow the Deployment guide** when you're ready to go live
 
-## Need Help?
 
-- Check the troubleshooting sections in each doc
-- Look at the common issues sections
-- Review the testing checklists
-
-All documentation is written in simple, straightforward language - no jargon, just practical steps.
 
