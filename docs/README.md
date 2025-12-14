@@ -2,6 +2,11 @@
 
 Welcome! This folder contains all the documentation you need to understand, build, and deploy this real-time chat application.
 
+
+https://github.com/user-attachments/assets/ba972c4a-aa47-4857-8271-4ba96732e53e
+
+
+
 ## Quick Links
 
 - **[Frontend Documentation](./FRONTEND.md)** - Features, build steps, and testing guide for the React frontend
